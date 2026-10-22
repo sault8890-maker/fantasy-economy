@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi economía en LaLiga Fantasy</title>
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef3f5;--card:#fff;--tx:#14202b;--mu:#64748b;--bd:#e1e8ec;--pos:#0f7a3d;--neg:#c62828;--ac:#0a6b78;--acb:#dff6f9;--t:#42CDDD;--on:#04262b;--sh:0 1px 2px rgba(16,40,50,.06),0 6px 18px rgba(16,40,50,.07);--pb:#e1f5e9;--nb:#fdeaea}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1317;--card:#161d23;--tx:#e8eff4;--mu:#8fa0ae;--bd:#25303a;--pos:#4cc37f;--neg:#ff7b72;--ac:#42CDDD;--acb:#12363b;--t:#42CDDD;--on:#04262b;--sh:0 1px 2px rgba(0,0,0,.5);--pb:#123222;--nb:#3a1a1a}}
+:root[data-theme="dark"]{--bg:#0e1317;--card:#161d23;--tx:#e8eff4;--mu:#8fa0ae;--bd:#25303a;--pos:#4cc37f;--neg:#ff7b72;--ac:#42CDDD;--acb:#12363b;--t:#42CDDD;--on:#04262b;--sh:0 1px 2px rgba(0,0,0,.5);--pb:#123222;--nb:#3a1a1a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;transition:background .2s,color .2s}
+main{max-width:880px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#42CDDD,#2ba9bd);color:#04262b;border-radius:20px;padding:20px 22px;margin-bottom:16px;box-shadow:var(--sh)}
+header div{flex:1}h1{font-size:24px;margin:0;letter-spacing:-.3px}header p{margin:2px 0 0;font-size:13px;opacity:.8}
+.ib{width:42px;height:42px;padding:0;font-size:20px;background:rgba(255,255,255,.35);border:0;color:#04262b}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:14px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px 16px;box-shadow:var(--sh)}
+.c small{color:var(--mu);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}.c b{font-size:21px}
+.hero{grid-column:1/-1;border-top:4px solid var(--t)}.hero b{font-size:36px;letter-spacing:-1px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+.grp{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:14px;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:999px;padding:7px 14px;cursor:pointer;transition:transform .1s,background .15s}
+button:hover{border-color:var(--t)}button:active{transform:scale(.96)}
+button.on{background:var(--t);color:var(--on);border-color:var(--t);font-weight:600}
+.add{background:var(--t);color:var(--on);border-color:var(--t);font-weight:700;margin-left:auto}
+.row{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:start;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--sh)}
+.k{width:30px;height:30px;border-radius:50%;background:var(--acb);color:var(--ac);display:grid;place-items:center;font-size:12px;font-weight:700}
+.nm{font-weight:700;font-size:16px}.det{color:var(--mu);font-size:13px}
+.g{text-align:right;font-weight:700;white-space:nowrap}
+.g>span{display:inline-block;padding:3px 11px;border-radius:999px;font-size:15px}.g>.pos{background:var(--pb)}.g>.neg{background:var(--nb)}
+.mb{height:5px;background:var(--bd);border-radius:3px;margin-top:8px;overflow:hidden}.mb i{display:block;height:100%;border-radius:3px}.mb .p{background:var(--t)}.mb .n{background:var(--neg)}
+.sim{margin-top:8px;max-width:230px}.sim input{padding:6px 10px;font-size:13px}
+.pos{color:var(--pos)}.neg{color:var(--neg)}.mu{color:var(--mu);font-weight:500;font-size:13px}
+.tag{font-size:11px;background:var(--acb);color:var(--ac);border-radius:999px;padding:2px 8px;margin-left:8px;font-weight:600}
+.panel{display:none;background:var(--card);border:1px solid var(--bd);border-top:4px solid var(--t);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}
+.panel.open{display:block}
+.fr{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:10px}
+label{display:block;font-size:12px;color:var(--mu);margin-bottom:3px}
+input{width:100%;font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 12px}
+input:focus,textarea:focus{outline:2px solid var(--t);border-color:var(--t)}
+.msg{font-size:13px;margin-top:8px;min-height:18px}.msg.err{color:var(--neg)}
+textarea{width:100%;font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 12px}
+@media (max-width:480px){.row{grid-template-columns:30px 1fr}.g{grid-column:2;text-align:left}.add{margin-left:0}}
+#chartc{position:relative}.tip{position:absolute;display:none;pointer-events:none;background:var(--tx);color:var(--bg);padding:6px 10px;border-radius:8px;font-size:13px;line-height:1.35;white-space:nowrap;z-index:5;transform:translate(-50%,calc(-100% - 8px));box-shadow:var(--sh)}
+.wide{grid-column:1/-1}
+.pr{display:grid;grid-template-columns:1.3fr .7fr 1.3fr 1fr;gap:6px;padding:7px 0;border-top:1px solid var(--bd);font-size:14px;align-items:center}.pr b{text-align:right;font-size:14px}
+.ps,.sim select{font:inherit;font-size:12px;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:3px 5px}.ps{margin-left:8px}
+.sim{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;margin-top:8px;max-width:none}
+.sim select{width:100%;padding:8px 6px}.al{margin-top:6px;font-size:13px;font-weight:600}
+</style></head><body><main>
+<header><div><h1>Mi economía en LaLiga Fantasy</h1><p>Compras, ventas y ganancia por jugador<br><span id="sync"></span></p></div><button class="ib" id="syncb" aria-label="Actualizar datos desde la nube" title="Actualizar datos">🔄</button><button class="ib" id="tbtn" aria-label="Cambiar tema claro/oscuro"></button></header>
+<div class="cards" id="cards"></div>
+<div class="c" id="chartc" style="margin-bottom:14px;display:none"></div>
+<div class="bar">
+<div class="grp" id="sort"></div><div class="grp" id="filt"></div><input id="q" type="search" placeholder="Buscar jugador" style="width:170px"><button class="add" id="addb">+ Añadir operación</button><button id="datb">⇅ Exportar / importar</button></div>
+<div class="panel" id="panel">
+<div class="fr"><div><label for="nm">Jugador</label><input id="nm" list="pl" autocomplete="off" placeholder="Ej. Lamine Yamal"><datalist id="pl"></datalist></div>
+<div><label>Tipo</label><div class="grp" id="tp"></div></div>
+<div><label for="pr">Precio (€)</label><input id="pr" inputmode="numeric" autocomplete="off" placeholder="Ej. 25.000.000"></div></div>
+<div class="grp"><button class="on" id="save">Guardar</button><button id="undo">Deshacer última añadida</button></div>
+<div class="msg" id="msg"></div></div>
+<div class="panel" id="dpanel">
+<p class="mu" style="margin:0 0 10px">Exporta todas tus operaciones a un archivo y vuelve a importarlas cuando quieras. Importar reemplaza las operaciones que hayas añadido en esta página.</p>
+<div class="grp"><button class="on" id="exp">Exportar archivo</button><button id="cpy">Copiar datos</button><button id="impf">Importar archivo</button><input type="file" id="fi" accept=".json,application/json" hidden></div>
+<div style="margin-top:12px"><label for="ta">O pega aquí los datos para importarlos</label><textarea id="ta" rows="5" spellcheck="false"></textarea>
+<div style="margin-top:8px"><button id="impt">Importar texto pegado</button></div></div>
+<div class="msg" id="dmsg"></div></div>
+<div id="list"></div>
+<p class="mu">Precios sin comisiones. Las operaciones que añadas se guardan automáticamente. Ganancia = venta − compra; en los jugadores predefinidos, la ganancia es el precio de venta. El número es el orden cronológico de la primera operación.</p>
+</main>
+<script>
+const BASE=[];
+let added=[],tipo="c";
+const KEY="laliga_fantasy_added_ops";
+const f=n=>n.toLocaleString("es-ES")+" €";
+const sg=n=>(n>0?"+":n<0?"−":"")+Math.abs(n).toLocaleString("es-ES")+" €";
+let P=[],NAMES=[];
+function build(){
+ const last={},disp={},out=[];
+ BASE.concat(added).forEach(([n,t,p],i)=>{
+  const key=n.trim().toLowerCase();if(!disp[key])disp[key]=n.trim();
+  let x=last[key];
+  if(t==="c"){
+   if(!x||x.s!=null){const k=(x?x.k:0)+1;x={n:k>1?`${disp[key]} (${k}ª compra)`:disp[key],b:p,s:null,i,k};last[key]=x;out.push(x)}
+   else x.b=(x.b||0)+p;
+  }else{
+   if(!x){x={n:disp[key],b:null,s:p,i,k:1};last[key]=x;out.push(x)}else x.s=(x.s||0)+p;x.si=i;
+  }
+ });
+ NAMES=Object.values(disp);
+ P=out.map(x=>({n:x.n,b:x.b,s:x.s,i:x.i,si:x.si,st:x.b!=null&&x.s!=null?"c":x.b!=null?"p":"v",g:x.b!=null&&x.s!=null?x.s-x.b:x.b==null?x.s:null}));
+}
+let sort="gan",filt="all",pf="all",metadoc=null;
+const MK="laliga_fantasy_meta";
+const EMPTY=()=>({mv:{},mvd:{},tr:{},cash:null,prem:[]});
+let META=EMPTY();
+const pk=n=>n.replace(/\s*\(\d+ª compra\)$/,"");
+const esc=x=>x.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+const num=v=>parseInt(String(v).replace(/[^\d]/g,""),10);
+function metaLoad(){try{const v=JSON.parse(localStorage.getItem(MK)||"null");if(v&&typeof v==="object")META=Object.assign(EMPTY(),v)}catch(e){}}
+function metaSave(){try{localStorage.setItem(MK,JSON.stringify(META))}catch(e){}if(metadoc)metadoc.set({json:JSON.stringify(META)}).catch(()=>{})}
+
+const SORTS=[["gan","Mayor ganancia"],["rev","Menor ganancia"],["asc","Más antiguo"],["desc","Más reciente"]];
+const FILTS=[["all","Todos"],["c","Cerrados"],["p","Pendientes"],["v","Predefinidos"]];
+function tesHTML(eq,n){
+ const cash=META.cash,prem=META.prem||[],tp=prem.reduce((a,x)=>a+x.a,0);
+ return `<div class="c wide"><small>Tesorería y patrimonio</small>
+ <div class="fr" style="margin:8px 0">
+ <div><label for="cash">Saldo actual en caja (€)</label><input id="cash" inputmode="numeric" value="${cash!=null?cash.toLocaleString("es-ES"):""}" placeholder="Ej. 12.500.000"></div>
+ <div><label for="pj">Jornada (opcional)</label><input id="pj" placeholder="Ej. J12"></div>
+ <div><label for="pa">Premio / ingreso (€)</label><input id="pa" inputmode="numeric" placeholder="Ej. 800.000"></div>
+ <div style="align-self:end"><div class="grp"><button class="on" id="padd">Añadir premio</button><button id="pund">Deshacer</button></div></div></div>
+ <div class="pr" style="grid-template-columns:1fr auto"><span>Valor del equipo (${n} jugadores)</span><b>${f(eq)}</b></div>
+ <div class="pr" style="grid-template-columns:1fr auto"><span>Dinero en caja</span><b>${cash!=null?f(cash):"—"}</b></div>
+ <div class="pr" style="grid-template-columns:1fr auto"><span><b>Patrimonio total</b></span><b class="pos" style="font-size:20px">${cash!=null?f(cash+eq):"Introduce tu saldo"}</b></div>
+ <div class="pr" style="grid-template-columns:1fr auto"><span>Premios registrados (${prem.length})</span><b>${f(tp)}</b></div>
+ <div class="mu">${prem.length?"Últimos: "+prem.slice(-3).map(x=>`${x.j?esc(x.j)+" ":""}+${f(x.a)}`).join(" · ")+". ":""}El valor del equipo usa el precio de hoy que indiques en cada pendiente; si no hay, el precio de compra.</div></div>`;
+}
+function bindTes(){
+ $("cash").onchange=e=>{const v=num(e.target.value);META.cash=v>=0?v:null;metaSave();cards()};
+ $("padd").onclick=()=>{const a=num($("pa").value);if(!(a>0))return;META.prem.push({j:$("pj").value.trim(),a});metaSave();cards()};
+ $("pund").onclick=()=>{if(META.prem.length){META.prem.pop();metaSave();cards()}};
+}
+function cards(){
+ const cl=P.filter(p=>p.st==="c"),pd=P.filter(p=>p.st==="v"),pe=P.filter(p=>p.st==="p");
+ const t=cl.concat(pd).reduce((a,p)=>a+p.g,0),inv=pe.reduce((a,p)=>a+p.b,0);
+ const win=cl.filter(p=>p.g>0).length,ib=cl.reduce((a,p)=>a+p.b,0),gc=cl.reduce((a,p)=>a+p.g,0);
+ const eq=pe.reduce((a,p)=>a+(META.mv[p.n]??p.b),0),wm=pe.filter(p=>META.mv[p.n]!=null),th=wm.reduce((a,p)=>a+META.mv[p.n]-p.b,0);
+ const bs=[...cl].sort((a,b)=>b.g-a.g),be=bs[0],wo=bs[bs.length-1];
+ const pc=x=>x.toLocaleString("es-ES",{maximumFractionDigits:1})+" %";
+ const k=(l,v,x="")=>`<div class="c"><small>${l}</small><b>${v}</b> <span class="mu">${x}</span></div>`;
+ $("cards").innerHTML=
+ `<div class="c hero"><small>Balance total</small><b class="${t>=0?"pos":"neg"}">${sg(t)}</b>${wm.length?` <span class="mu">· con el precio de hoy de ${wm.length} pendiente${wm.length>1?"s":""}: <b class="${t+th>=0?"pos":"neg"}" style="font-size:15px">${sg(t+th)}</b></span>`:""}</div>`
+ +k("Jugadores vendidos",cl.length+pd.length,`${cl.length} comprados · ${pd.length} predefinidos`)
+ +k("Invertido en pendientes",f(inv),wm.length?`valor actual: ${f(eq)}`:`${pe.length} jugadores`)
+ +(cl.length?k("Tasa de acierto",pc(win/cl.length*100),`${win} de ${cl.length} con ganancia`)
+ +k("Ganancia media",sg(Math.round(gc/cl.length)),"por jugador cerrado")
+ +k("Rentabilidad global",pc(gc/ib*100),"sobre lo invertido")
+ +`<div class="c"><small>Mejor operación</small><b class="pos">${sg(be.g)}</b> <span class="mu">${be.n}</span></div><div class="c"><small>Peor operación</small><b class="${wo.g>=0?"pos":"neg"}">${sg(wo.g)}</b> <span class="mu">${wo.n}</span></div>`:"")
+ +tesHTML(eq,pe.length);
+ bindTes();
+}
+function btns(id,arr,cur,set){
+ const el=document.getElementById(id);el.innerHTML="";
+ arr.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;if(k===cur)b.className="on";b.onclick=()=>{set(k);render()};el.appendChild(b)});
+}
+function render(){
+ btns("sort",SORTS,sort,k=>sort=k);btns("filt",FILTS,filt,k=>filt=k);
+ const q=document.getElementById("q").value.trim().toLowerCase();
+ let a=P.filter(p=>(filt==="all"||p.st===filt)&&p.n.toLowerCase().includes(q));
+ const cmp={gan:(x,y)=>(y.g??-Infinity)-(x.g??-Infinity)||x.i-y.i,
+  rev:(x,y)=>(x.g==null)-(y.g==null)||(x.g-y.g)||x.i-y.i,
+  asc:(x,y)=>x.i-y.i,desc:(x,y)=>y.i-x.i};
+ a.sort(cmp[sort]);
+ const mxa=Math.max(1,...P.filter(p=>p.g!=null).map(p=>Math.abs(p.g)));
+ const L=document.getElementById("list");
+ L.innerHTML=a.map(p=>{
+  const tag=p.st==="p"?'<span class="tag">pendiente</span>'+(p.b===0?'<span class="tag">predefinido</span>':""):p.st==="v"?'<span class="tag">predefinido</span>':"";
+  const N=esc(p.n);
+  const roi=p.st==="c"&&p.b>0?` · Rentabilidad: ${(p.g/p.b*100).toLocaleString("es-ES",{maximumFractionDigits:1})} %`:"";
+  const det=`Compra: ${p.b>0?f(p.b):"predefinido (0 €)"} · Venta: ${p.s!=null?f(p.s):"—"}${roi}`;
+  const mv=p.st==="p"?META.mv[p.n]:null,pj=mv!=null?mv-p.b:null,tr=(p.st==="p"&&META.tr[p.n])||{},rate=tr.r||0;
+  const g=p.g!=null?`<span class="${p.g>=0?"pos":"neg"}">${sg(p.g)}</span>`:pj!=null?`<span class="${pj>=0?"pos":"neg"}">${sg(pj)}</span><div class="mu">teórico</div>`:'<span class="mu">sin ganancia aún</span>';
+  const gv=p.g!=null?p.g:pj;
+  const bar=gv!=null?`<div class="mb"><i class="${gv>=0?"p":"n"}" style="width:${Math.max(3,Math.abs(gv)/mxa*100).toFixed(1)}%"></i></div>`:"";
+  let si="",al="";
+  if(p.st==="p"){
+   const to=[["","Tendencia"],["up","🟢 Sube"],["down","🔴 Baja"],["flat","⚪ Estable"]];
+   const md=META.mvd&&META.mvd[p.n];
+   si=`<div class="sim"><div><label>Precio de hoy (€)</label><input data-k="mv" data-n="${N}" inputmode="numeric" placeholder="Ej. 85.000.000" value="${mv!=null?mv.toLocaleString("es-ES"):""}" aria-label="Precio de hoy de ${N}">${md&&mv!=null?`<div class="mu">Actualizado: ${md.split("-").reverse().join("/")}</div>`:""}</div>
+   <div><label>Tendencia</label><select data-k="tr" data-n="${N}" aria-label="Tendencia de ${N}">${to.map(([v,l])=>`<option value="${v}"${v===(tr.d||"")?" selected":""}>${l}</option>`).join("")}</select></div>
+   <div><label>Variación diaria (€)</label><input data-k="rate" data-n="${N}" inputmode="numeric" placeholder="Aprox. por día" value="${rate?rate.toLocaleString("es-ES"):""}" aria-label="Variación diaria de ${N}"></div></div>`;
+
+   if(tr.d==="down"){
+    if(pj!=null&&pj>0)al=`<div class="al neg">⚠️ Baja${rate?` ~${f(rate)}/día`:""}: tu ganancia teórica se va reduciendo${rate?` (se agota en ~${Math.max(1,Math.floor(pj/rate))} días)`:""}. Conviene vender pronto.</div>`;
+    else al=`<div class="al neg">🔴 Baja${rate?` ~${f(rate)}/día`:""} y estás en pérdida teórica: la pérdida crece si aguantas.</div>`;
+   }else if(tr.d==="up")al=`<div class="al pos">🟢 Sube${rate?` ~${f(rate)}/día`:""}: puedes aguantar y vender más caro.</div>`;
+  }
+  return `<div class="row"><div class="k">${p.i+1}</div><div><div class="nm">${p.n}${tag}</div><div class="det">${det}</div>${bar}${si}${al}</div><div class="g">${g}</div></div>`}).join("");
+ if(!a.length)L.innerHTML=`<div class="c mu">${P.length?"Ningún jugador coincide con los filtros.":"Aún no hay jugadores. Pulsa “+ Añadir operación” para empezar."}</div>`;
+ L.querySelectorAll("[data-k]").forEach(el=>el.onchange=()=>{
+  const n=el.dataset.n,kk=el.dataset.k,v=el.value;
+  if(kk==="mv"){if(num(v)>0){META.mv[n]=num(v);META.mvd[n]=new Date().toISOString().slice(0,10)}else{delete META.mv[n];delete META.mvd[n]}}
+  else{const t=META.tr[n]||{};if(kk==="tr")t.d=v;else t.r=num(v)>0?num(v):0;(t.d||t.r)?META.tr[n]=t:delete META.tr[n]}
+  metaSave();cards();render();
+ });
+}
+function lsLoad(){try{const v=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(v)?v:[]}catch(e){return[]}}
+let dbdoc=null;
+function persist(){
+ try{localStorage.setItem(KEY,JSON.stringify(added))}catch(e){}
+ if(dbdoc)dbdoc.set({items:added}).catch(()=>{});
+}
+let CO="sale",CV="acc";
+function chart(){
+ const el=document.getElementById("chartc");
+ const pts=P.filter(p=>p.g!=null&&p.si!=null);
+ if(pts.length<2){el.style.display="none";return}
+ pts.sort({sale:(a,b)=>a.si-b.si,buy:(a,b)=>a.i-b.i,gan:(a,b)=>b.g-a.g,rev:(a,b)=>a.g-b.g}[CO]);
+ let c=0;const v=pts.map(p=>(c+=p.g));const acc=CV==="acc",vals=acc?v:pts.map(p=>p.g);
+ const W=600,H=230,L=10,R=10,T=22,B=26,n=pts.length;
+ const mn=Math.min(0,...vals),mx=Math.max(0,...vals),sp=(mx-mn)||1;
+ const X=i=>L+(W-L-R)*(acc?i/(n-1):(i+.5)/n),Y=y=>T+(H-T-B)*(1-(y-mn)/sp);
+ const cw=(W-L-R)/n,m=x=>(x/1e6).toLocaleString("es-ES",{maximumFractionDigits:1})+"M";
+ let shape="",hits="";
+ if(acc){
+  const d=v.map((y,i)=>`${i?"L":"M"}${X(i).toFixed(1)},${Y(y).toFixed(1)}`).join("");
+  shape=`<path d="${d}L${X(n-1)},${Y(0)}L${X(0)},${Y(0)}Z" fill="var(--t)" opacity=".18"/><path d="${d}" fill="none" stroke="var(--t)" stroke-width="3" stroke-linejoin="round"/>`
+   +pts.map((q,i)=>`<circle class="dot" cx="${X(i).toFixed(1)}" cy="${Y(v[i]).toFixed(1)}" r="4" fill="var(--t)"/>`).join("");
+  hits=pts.map((q,i)=>`<circle class="hit" data-i="${i}" cx="${X(i).toFixed(1)}" cy="${Y(v[i]).toFixed(1)}" r="12" fill="transparent" style="cursor:pointer"/>`).join("");
+ }else{
+  shape=pts.map((q,i)=>{const y0=Y(0),y1=Y(q.g);return `<rect class="dot" x="${(X(i)-cw*.35).toFixed(1)}" y="${Math.min(y0,y1).toFixed(1)}" width="${(cw*.7).toFixed(1)}" height="${Math.max(1.5,Math.abs(y1-y0)).toFixed(1)}" rx="2" fill="${q.g>=0?"var(--t)":"var(--neg)"}"/>`}).join("");
+  hits=pts.map((q,i)=>`<rect class="hit" data-i="${i}" x="${(X(i)-cw/2).toFixed(1)}" y="${T}" width="${cw.toFixed(1)}" height="${H-T-B}" fill="transparent" style="cursor:pointer"/>`).join("");
+ }
+ const LB={sale:["1ª venta",n+"ª venta"],buy:["Más antiguo","Más reciente"],gan:["Mayor ganancia","Menor ganancia"],rev:["Menor ganancia","Mayor ganancia"]}[CO];
+ el.style.display="block";
+ el.innerHTML=`<small>${acc?"Evolución del balance (acumulado)":"Ganancia por jugador"}</small>
+ <div class="bar" style="margin:8px 0"><div class="grp" id="cord"></div><div class="grp" id="cview"></div></div>
+ <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Gráfico del balance">
+ <line x1="${L}" x2="${W-R}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--bd)" stroke-dasharray="4 4"/>${shape}
+ <text x="${L}" y="${T-6}" fill="var(--mu)" font-size="14">${acc?"máx.":"mejor"} ${m(Math.max(...vals))}</text>
+ <text x="${W-R}" y="${T-6}" fill="var(--tx)" font-size="15" font-weight="700" text-anchor="end">Total: ${m(v[n-1])}</text>
+ <text x="${L}" y="${H-6}" fill="var(--mu)" font-size="14">${LB[0]}</text>
+ <text x="${W-R}" y="${H-6}" fill="var(--mu)" font-size="14" text-anchor="end">${LB[1]}</text>${hits}</svg><div class="tip"></div>`;
+ btns("cord",[["sale","Orden de venta"],["buy","Orden de compra"],["gan","Mayor ganancia"],["rev","Menor ganancia"]],CO,k=>{CO=k;chart()});
+ btns("cview",[["acc","Acumulado"],["bar","Por jugador"]],CV,k=>{CV=k;chart()});
+ const tip=el.querySelector(".tip"),dd=el.querySelectorAll(".dot");
+ const hl=(i,on)=>acc?dd[i].setAttribute("r",on?7:4):(dd[i].style.opacity=on?.6:1);
+ el.querySelectorAll(".hit").forEach(h=>{const i=+h.dataset.i;
+  const show=()=>{const q=pts[i];tip.innerHTML=`<b>${esc(q.n)}</b><br>${sg(q.g)} · acumulado ${sg(v[i])}`;tip.style.display="block";
+   const rc=h.getBoundingClientRect(),ec=el.getBoundingClientRect();
+   tip.style.left=Math.min(Math.max(rc.left+rc.width/2-ec.left,80),ec.width-80)+"px";
+   tip.style.top=(acc?rc.top-ec.top:rc.top-ec.top+(Y(Math.max(0,pts[i].g))-T)*rc.height/(H-T-B))+"px";hl(i,1)};
+  h.onmouseenter=show;h.onclick=show;h.onmouseleave=()=>{tip.style.display="none";hl(i,0)}});
+}
+function refresh(){build();cards();chart();render();
+ document.getElementById("pl").innerHTML=NAMES.map(n=>`<option value="${n.replace(/"/g,"&quot;")}">`).join("")}
+function setTipo(k){tipo=k;btns("tp",[["c","Compra"],["v","Venta"],["p","Predefinido (gratis)"]],tipo,setTipo);const pr=document.getElementById("pr");if(pr){pr.disabled=k==="p";if(k==="p")pr.value=""}}
+function msg(t,e){const m=document.getElementById("msg");m.textContent=t;m.className="msg"+(e?" err":"")}
+document.getElementById("addb").onclick=()=>{const p=document.getElementById("panel");p.classList.toggle("open");if(p.classList.contains("open"))document.getElementById("nm").focus()};
+document.getElementById("save").onclick=()=>{
+ const n=document.getElementById("nm").value.trim(),p=parseInt(document.getElementById("pr").value.replace(/[^\d]/g,""),10);
+ if(!n)return msg("Escribe el nombre del jugador.",1);
+ if(tipo!=="p"&&(!p||p<=0))return msg("Escribe un precio válido.",1);
+ added.push([n,tipo==="v"?"v":"c",tipo==="p"?0:p]);persist();refresh();
+ document.getElementById("nm").value="";document.getElementById("pr").value="";
+ msg(`Añadido: ${n}, ${tipo==="p"?"predefinido (gratis)":tipo==="c"?"compra":"venta"}${tipo==="p"?"":", "+f(p)}`);document.getElementById("nm").focus();
+};
+document.getElementById("undo").onclick=()=>{
+ if(!added.length)return msg("No hay operaciones añadidas que deshacer.",1);
+ const [n,t,p]=added.pop();persist();refresh();msg(`Deshecho: ${n}, ${t==="c"?"compra":"venta"}, ${f(p)}`);
+};
+document.getElementById("q").oninput=render;
+const $=id=>document.getElementById(id);
+function dmsg(t,e){const m=$("dmsg");m.textContent=t;m.className="msg"+(e?" err":"")}
+function dump(){return JSON.stringify({app:"laliga-fantasy-balance",version:2,meta:META,operaciones:BASE.concat(added).map(([n,t,p])=>({jugador:n,tipo:t==="c"?"compra":"venta",precio:p}))},null,1)}
+function parseOps(text){
+ let o;try{o=JSON.parse(text)}catch(e){throw new Error("El texto no es un JSON válido.")}
+ const arr=Array.isArray(o)?o:o&&o.operaciones;
+ if(!Array.isArray(arr))throw new Error("No encuentro la lista de operaciones.");
+ return arr.map((x,i)=>{
+  const [n,t,p]=Array.isArray(x)?x:[x&&x.jugador,x&&x.tipo,x&&x.precio];
+  const tt=/^c/i.test(String(t))?"c":/^v/i.test(String(t))?"v":null,pp=Number(p);
+  if(typeof n!=="string"||!n.trim()||!tt||!Number.isInteger(pp)||pp<0||(pp===0&&tt==="v"))throw new Error("Operación "+(i+1)+" no válida.");
+  return [n.trim(),tt,pp];
+ });
+}
+function importOps(text){
+ try{
+  const ops=parseOps(text);
+  if(ops.length<BASE.length||!BASE.every((b,i)=>ops[i][0]===b[0]&&ops[i][1]===b[1]&&ops[i][2]===b[2]))throw new Error("Formato de datos no válido.");
+  added=ops.slice(BASE.length);persist();try{const o=JSON.parse(text);if(o&&o.meta&&typeof o.meta==="object"){META=Object.assign(EMPTY(),o.meta);metaSave()}}catch(e){}refresh();
+  dmsg(`Importado: ${ops.length} operaciones (${added.length} añadidas por ti).`);
+ }catch(e){dmsg(e.message,1)}
+}
+$("datb").onclick=()=>$("dpanel").classList.toggle("open");
+$("exp").onclick=async()=>{
+ const data=dump();
+ try{
+  const dl=window.claude&&await claude.use("downloads");if(!dl){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));a.download="laliga_fantasy_datos.json";document.body.appendChild(a);a.click();a.remove();dmsg("Archivo descargado.");return}
+  await dl.save({filename:"laliga_fantasy_datos.json",data});dmsg("Archivo guardado.");
+ }catch(e){
+  if(e&&e.code==="declined")return dmsg("Descarga cancelada.",1);
+  $("ta").value=data;dmsg("No se pudo descargar el archivo. Los datos están en el cuadro de texto: cópialos y guárdalos en un archivo.",1);
+ }
+};
+$("cpy").onclick=async()=>{
+ $("ta").value=dump();
+ try{await navigator.clipboard.writeText($("ta").value);dmsg("Datos copiados al portapapeles.")}
+ catch(e){$("ta").select();dmsg("Selecciona y copia el texto del cuadro.",1)}
+};
+$("impf").onclick=()=>$("fi").click();
+$("fi").onchange=async()=>{const fl=$("fi").files[0];if(!fl)return;try{importOps(await fl.text())}catch(e){dmsg("No se pudo leer el archivo.",1)}$("fi").value=""};
+$("impt").onclick=()=>importOps($("ta").value);
+const THK="laliga_fantasy_theme";
+function applyTheme(t){document.documentElement.dataset.theme=t;$("tbtn").textContent=t==="dark"?"☀️":"🌙"}
+let th=null;try{th=localStorage.getItem(THK)}catch(e){}
+applyTheme(th||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));
+$("tbtn").onclick=()=>{const n=document.documentElement.dataset.theme==="dark"?"light":"dark";applyTheme(n);try{localStorage.setItem(THK,n)}catch(e){}};
+metaLoad();added=lsLoad();setTipo("c");refresh();
+
+
+let dbs=null;
+function setSync(t){const e=$("sync");if(e)e.textContent=t==="ok"?"☁️ Sincronizado":t==="busy"?"☁️ Sincronizando…":"💾 Solo en este dispositivo"}
+const hasMeta=m=>m&&(Object.keys(m.mv||{}).length||Object.keys(m.tr||{}).length||m.cash!=null||(m.prem||[]).length);
+async function syncPull(){
+ try{
+  if(!dbs)dbs=window.claude&&await claude.use("db");
+  if(!dbs){setSync("local");const sb=$("syncb");if(sb)sb.style.display="none";return}
+  setSync("busy");
+  const d1=dbs.doc("app/ops"),d2=dbs.doc("app/meta"),[s1,s2]=await Promise.all([d1.get(),d2.get()]);
+  dbdoc=d1;metadoc=d2;
+  if(s1.exists&&Array.isArray(s1.data().items)&&(s1.data().items.length||!added.length)){added=s1.data().items;try{localStorage.setItem(KEY,JSON.stringify(added))}catch(e){}}
+  else if(added.length)d1.set({items:added}).catch(()=>{});
+  let m=null;if(s2.exists&&s2.data().json){try{m=JSON.parse(s2.data().json)}catch(e){}}
+  if(m&&(hasMeta(m)||!hasMeta(META))){META=Object.assign(EMPTY(),m);try{localStorage.setItem(MK,JSON.stringify(META))}catch(e){}}
+  else if(hasMeta(META))d2.set({json:JSON.stringify(META)}).catch(()=>{});
+  refresh();setSync("ok");
+ }catch(e){setSync("local")}
+}
+$("syncb").onclick=syncPull;
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)syncPull()});
+setSync("busy");syncPull();
+</script></body></html>
